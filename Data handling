@@ -10,25 +10,42 @@ d) Maybe the data doesn't exist.
 For example:
 If there is a column named 'Everyday dinner contents' and if you happen to miss dinner one day then the value will not be existing and not recorded in our ds.
 
-To find out how many values and where the values are missing in maximum in our dataset,
+## To find out how many values and where the values are missing in maximum in our dataset,
 df.isnull().sum() is used.
 This is the count of missing data in each of the columns in the given dataset.
 
+##
 df['cN'].value_counts() by default excludes the missing values and displays how many times a same name in the column is repeated.
+This excludes the NaN values.
+df['cN'].value_counts(dropna=False) also includes the number of NaN repeated in the dataset.
 
-Methods of dropping:
+## Methods of dropping:
 a) df.dropna(how='any') #This drops the rows containig any (one or some or all) missing (NaN or na etc) values.
 Unless specified it performs on the default axis which is 0.
-df.dropna(how='any').shape helps know how many rows and columns exist after dropping the missing values by comparing with the shape of the undropped dataset.
+df.dropna(how='any').shape 
+# This helps know how many rows and columns exist after dropping the missing values by comparing with the shape of the undropped dataset.
 b) df.dropna(how='all').shape # This only drops the row or otherwise specified column containig all missing Values.
 c) df.dropna(subset=['columnName1_withmissingValues', 'cN2'], how='any').shape
 The above mentioned code drops the row only if one of the two mentioned columns has a missing value.
-d) df.dropna(subset=['cN', 'columnName'], how='all').shape # This drops the values only if all of the mentioned columns have null values.
+d) df.dropna(subset=['cN', 'columnName'], how='all').shape 
+# This drops the values only if all of the mentioned columns have null values.
 
-Methods of filling using fillna
+## Methods of filling using fillna:
 a) df['cN'].fillna(value='any other relevant value in our dataset-someNameof the value', inplace = True) 
 inplace = True makes the changes in the undropped untouched dataframe as well. This change is not temporary.
 If inplace=True was not included, that wouldn't make changes to the ds as by default, inplace = False
 So either we would have to assign it to something like:
 filled_dataset = df['cN'].fillna(value='any other relevant value in our dataset-someNameof the value')
 or by using the inplace = True
+
+## While comparing data in two columns and finding out the relation in numbers,
+df[df.cN == value_in_the_column].another_cN.value_counts() 
+In the above code, the contents in the bracket gives the meaning of what the comparison is on the basis of.
+The contents after the bracket generally gives the  idea of what are we intending to find out.
+
+## To find out the same above relation or to display the value count in percentage,
+df[df.cN == value_in_the_column].another_cN.value_counts(normalize=True) 
+
+# The same things as done above can be done using another method: groupby
+df.groupby('cN').another_cN.value_counts(normalize=True) or
+df.groupby('cN').another_cN.value_counts(normalize=True).loc[:, 'rValue_in_the_column']
