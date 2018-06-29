@@ -49,3 +49,7 @@ df[df.cN == value_in_the_column].another_cN.value_counts(normalize=True)
 # The same things as done above can be done using another method: groupby
 df.groupby('cN').another_cN.value_counts(normalize=True) or
 df.groupby('cN').another_cN.value_counts(normalize=True).loc[:, 'rValue_in_the_column']
+
+##To obtain the above results from the above lines of code in a dataframe structure: unstack()
+df.groupby('cN').another_cN.value_counts(normalize=True).unstack() 
+
