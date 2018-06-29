@@ -1,3 +1,34 @@
 Please write here notes everyday
 helloooo halua
-oooo
+hello tuii
+
+Some Reasons why Values are missing in our dataset:
+a) The data wasn't recorded at the time.
+b) Data Corruption.
+c) Privacy reasons.
+d) Maybe the data doesn't exist.
+For example:
+If there is a column named 'Everyday dinner contents' and if you happen to miss dinner one day then the value will not be existing and not recorded in our ds.
+
+To find out how many values and where the values are missing in maximum in our dataset,
+df.isnull().sum() is used.
+This is the count of missing data in each of the columns in the given dataset.
+
+df['cN'].value_counts() by default excludes the missing values and displays how many times a same name in the column is repeated.
+
+Methods of dropping:
+a) df.dropna(how='any') #This drops the rows containig any (one or some or all) missing (NaN or na etc) values.
+Unless specified it performs on the default axis which is 0.
+df.dropna(how='any').shape helps know how many rows and columns exist after dropping the missing values by comparing with the shape of the undropped dataset.
+b) df.dropna(how='all').shape # This only drops the row or otherwise specified column containig all missing Values.
+c) df.dropna(subset=['columnName1_withmissingValues', 'cN2'], how='any').shape
+The above mentioned code drops the row only if one of the two mentioned columns has a missing value.
+d) df.dropna(subset=['cN', 'columnName'], how='all').shape # This drops the values only if all of the mentioned columns have null values.
+
+Methods of filling using fillna
+a) df['cN'].fillna(value='any other relevant value in our dataset-someNameof the value', inplace = True) 
+inplace = True makes the changes in the undropped untouched dataframe as well. This change is not temporary.
+If inplace=True was not included, that wouldn't make changes to the ds as by default, inplace = False
+So either we would have to assign it to something like:
+filled_dataset = df['cN'].fillna(value='any other relevant value in our dataset-someNameof the value')
+or by using the inplace = True
