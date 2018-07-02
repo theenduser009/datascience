@@ -14,6 +14,13 @@ If there is a column named 'Everyday dinner contents' and if you happen to miss 
 df.isnull().sum() is used.
 This is the count of missing data in each of the columns in the given dataset.
 
+#All the missing values:
+1. df.isnull().sum()
+
+#Any missing values:
+1. df.isnull().values.any()
+2. df.isnull().sum().sum()
+
 ##
 df['cN'].value_counts() by default excludes the missing values and displays how many times a same name in the column is repeated.
 This excludes the NaN values.
@@ -29,6 +36,10 @@ c) df.dropna(subset=['columnName1_withmissingValues', 'cN2'], how='any').shape
 The above mentioned code drops the row only if one of the two mentioned columns has a missing value.
 d) df.dropna(subset=['cN', 'columnName'], how='all').shape 
 # This drops the values only if all of the mentioned columns have null values.
+e) df.drop('cN', axis='columns' or axis=1, inplace=True)
+NOTE: By default, it is inplace=False
+#This means it doesn't change or implement this in the original df. 
+f) df.dropna(axis='columns', how='all') # To drop the columns having all of the values as null.
 
 ## Methods of filling using fillna:
 a) df['cN'].fillna(value='any other relevant value in our dataset-someNameof the value', inplace = True) 
@@ -37,6 +48,10 @@ If inplace=True was not included, that wouldn't make changes to the ds as by def
 So either we would have to assign it to something like:
 filled_dataset = df['cN'].fillna(value='any other relevant value in our dataset-someNameof the value')
 or by using the inplace = True
+
+NOTE: Filling or replacing the values can  be done by using the loc method.
+
+median = df['cN'].median()
 
 ## While comparing data in two columns and finding out the relation in numbers,
 df[df.cN == value_in_the_column].another_cN.value_counts() 
@@ -52,4 +67,37 @@ df.groupby('cN').another_cN.value_counts(normalize=True).loc[:, 'rValue_in_the_c
 
 ##To obtain the above results from the above lines of code in a dataframe structure: unstack()
 df.groupby('cN').another_cN.value_counts(normalize=True).unstack() 
+
+##Types of Missing Values
+a) NA, NaN, "" : Standard Types
+b) n/a, na, "--" : Non-standard Types
+c) 12
+...
+
+#To change the non-standard null values into standard ones:
+missing_values = ["n/a", "na", "--"]
+df=pd.read_csv("xyz.csv", na_values=missing_values)
+
+##Comparing Groups
+The selection of the column name is case sensitive.
+
+To select a particular value name in a particular column of a particular df, the following code is used:
+df[df.cN=='value_name'].anothercN.value_counts()
+
+##Examining Relationships
+
+df.cN.value_counts(normalize=True)
+df.cN.mean()
+True has a value of 1 and False has a value of 0.
+The code counts all the values with 1 and calculates their mean.
+OR
+Percentage of times, it is a one.
+
+If we're doing value counts on a boolean column, often we get counts of 0s and 1s.
+sum=number of 1s 
+mean=percentage of 1s
+
+df.groupby('cN1').cN2.mean()
+-For each cN1, we want to get the mean of cN2 or on the basis of cN1.
+-% of Trues for cN2 of each cN1.
 
